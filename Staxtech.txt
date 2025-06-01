@@ -1,0 +1,138 @@
+CALCULATOR
+USING PYTHON
+
+
+import tkinter as tk
+
+def click(event):
+    current = str(entry.get())
+    entry.delete(0, tk.END)
+    entry.insert(0, current + str(event.widget["text"]))
+
+def clear():
+    entry.delete(0, tk.END)
+
+def evaluate():
+    try:
+        result = eval(entry.get())
+        entry.delete(0, tk.END)
+        entry.insert(0, str(result))
+    except Exception as e:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+
+# Main window
+root = tk.Tk()
+root.title("Simple Calculator")
+root.geometry("300x400")
+root.resizable(False, False)
+
+# Entry widget
+entry = tk.Entry(root, font=("Arial", 20), bd=10, relief=tk.RIDGE, justify="right")
+entry.pack(fill=tk.BOTH, ipadx=8, ipady=15, padx=10, pady=10)
+
+# Button layout
+buttons = [
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["0", ".", "=", "+"]
+]
+
+# Create buttons
+for row in buttons:
+    frame = tk.Frame(root)
+    frame.pack(expand=True, fill="both")
+    for item in row:
+        btn = tk.Button(frame, text=item, font=("Arial", 18), relief=tk.GROOVE)
+        btn.pack(side="left", expand=True, fill="both", padx=2, pady=2)
+
+        if item == "=":
+            btn.config(command=evaluate)
+        elif item == "C":
+            btn.config(command=clear)
+        else:
+            btn.bind("<Button-1>", click)
+
+# Clear button
+clear_btn = tk.Button(root, text="C", font=("Arial", 18), bg="red", fg="white", command=clear)
+clear_btn.pack(fill="both", padx=10, pady=5)
+
+# Start GUI
+root.mainloop()
+
+
+
+
+
+
+TO DO LIST
+USING PYTHON
+
+
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to add task
+def add_task():
+    task = entry.get()
+    if task != "":
+        listbox.insert(tk.END, task)
+        entry.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Warning", "Enter a task!")
+
+# Function to delete selected task
+def delete_task():
+    try:
+        selected = listbox.curselection()[0]
+        listbox.delete(selected)
+    except IndexError:
+        messagebox.showwarning("Warning", "Select a task to delete!")
+
+# Function to mark task as done
+def mark_done():
+    try:
+        index = listbox.curselection()[0]
+        task = listbox.get(index)
+        listbox.delete(index)
+        listbox.insert(tk.END, task + " ✔")
+    except IndexError:
+        messagebox.showwarning("Warning", "Select a task to mark as done!")
+
+# GUI window
+root = tk.Tk()
+root.title("To-Do List")
+root.geometry("400x450")
+root.resizable(False, False)
+
+# Heading
+heading = tk.Label(root, text="My To-Do List", font=("Arial", 20))
+heading.pack(pady=10)
+
+# Task entry field
+entry = tk.Entry(root, font=("Arial", 14), width=30)
+entry.pack(pady=10)
+
+# Buttons
+frame = tk.Frame(root)
+frame.pack(pady=5)
+
+add_btn = tk.Button(frame, text="Add Task", width=12, command=add_task)
+add_btn.pack(side=tk.LEFT, padx=5)
+
+delete_btn = tk.Button(frame, text="Delete Task", width=12, command=delete_task)
+delete_btn.pack(side=tk.LEFT, padx=5)
+
+done_btn = tk.Button(frame, text="Mark Done", width=12, command=mark_done)
+done_btn.pack(side=tk.LEFT, padx=5)
+
+# Task list display
+listbox = tk.Listbox(root, font=("Arial", 14), width=35, height=15, selectbackground="lightblue")
+listbox.pack(pady=20)
+
+# Start the application
+root.mainloop()
+
+
+
